@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ForGraph {
+public class GraphWithPoints {
 
-    private List<GraphOneStep> listOfGraphSteps = new ArrayList<>();
+    private List<GraphOnePoint> listOfGraphSteps = new ArrayList<>();
     private String csvgraph;
-    private boolean readyToGraph = true;
+    private boolean readyToDraw = true;
 
-    public boolean isReadyToGraph() {
-        return readyToGraph;
+    public boolean isReadyToDraw() {
+        return readyToDraw;
     }
 
-    public ForGraph(String csvgraph) {
+    public GraphWithPoints(String csvgraph) {
         if (csvgraph == null) {
-            readyToGraph = false;
+            readyToDraw = false;
             return;
         }
 
@@ -27,28 +27,28 @@ public class ForGraph {
         }
         String[] graphs = csvgraph.split(",");
         for (int i = 0; i < graphs.length; i = i + 8) {
-            System.out.println(graphs.length);
-            System.out.println(graphs[0]+graphs[1]+graphs[2]+graphs[3]+graphs[4]+
-            graphs[5]+graphs[6]);
-
-            Integer nadoi = Integer.valueOf(graphs[i + 1]);
+            Integer milkYield = Integer.valueOf(graphs[i + 1]);
             Integer MOG = Integer.valueOf(graphs[i + 3]);
             Integer weight = Integer.valueOf(graphs[i + 5]);
+            if (milkYield == -1) milkYield = interpolate(i, 8 - 1, graphs);
+            if (MOG == -1) MOG = interpolate(i, 8 - 3, graphs);
+            if (weight == -1) weight = interpolate(i, 8 - 1, graphs);
             SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
-            Date date=null;
+            Date date = null;
             try {
                 date = parser.parse(graphs[i + 7]);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            listOfGraphSteps.add(new GraphOneStep(date, nadoi, MOG, weight));
-
+            listOfGraphSteps.add(new GraphOnePoint(date, milkYield, MOG, weight));
         }
-
-
         this.csvgraph = csvgraph;
+    }
 
-
+    public Integer interpolate(Integer i, Integer step, String[] graphs) {
+        if (i > 8) {
+            return Integer.parseInt(graphs[i - step]);
+        } else return 0;
     }
 
 
@@ -60,11 +60,11 @@ public class ForGraph {
         this.csvgraph = csvgraph;
     }
 
-    public List<GraphOneStep> getListOfGraphSteps() {
+    public List<GraphOnePoint> getListOfGraphSteps() {
         return listOfGraphSteps;
     }
 
-    public void setListOfGraphSteps(List<GraphOneStep> listOfGraphSteps) {
+    public void setListOfGraphSteps(List<GraphOnePoint> listOfGraphSteps) {
         this.listOfGraphSteps = listOfGraphSteps;
     }
 }

@@ -14,7 +14,7 @@ import com.example.albert.myapplication.model.CowsDatabase;
 
 public class Activity3 extends Activity {
     private EditText txtDate;
-    private EditText txtNadoi;
+    private EditText txtMilkYield;
     private EditText txtMOG;
     private EditText txtWeight;
     private CowsDatabase mCowDatabase;
@@ -28,7 +28,7 @@ public class Activity3 extends Activity {
 
     private void init() {
         txtDate = findViewById(R.id.txtDate);
-        txtNadoi = findViewById(R.id.txtNadoi);
+        txtMilkYield = findViewById(R.id.txtMilkYield);
         txtMOG = findViewById(R.id.txtMOG);
         txtWeight = findViewById(R.id.txtWeight);
         mCowDatabase = Room.databaseBuilder(getApplicationContext(), CowsDatabase.class, "cows_db").build();
@@ -52,16 +52,14 @@ public class Activity3 extends Activity {
                     csvgraph = "";
                 }
                 StringBuilder csvgraphForAppend = new StringBuilder(csvgraph);
-                if ((txtNadoi.getText().toString())=="") {
-                    txtNadoi.setText("-1"); }
-                if ((txtWeight.getText().toString())=="") {
-                    txtWeight.setText("-1"); }
-                if ((txtMOG.getText().toString())=="") {
-                    txtMOG.setText("-1"); }
-
-                csvgraphForAppend.append(",Nadoi,").append((txtNadoi.getText().toString()) + ",").
-                        append("MOG,").append((txtMOG.getText().toString()) + ",")
-                        .append("Weight,").append((txtWeight.getText().toString())+",").
+                String milkYield = txtMilkYield.getText().toString();
+                String weight = txtWeight.getText().toString();
+                String MOG = txtMOG.getText().toString();
+                if (milkYield.equals("")) milkYield="-1";
+                if (weight.equals("")) weight="-1";
+                if (MOG.equals("")) MOG="-1";
+                csvgraphForAppend.append(",Nadoi,").append((milkYield) + ",").
+                        append("MOG,").append(MOG + ",").append("Weight,").append(weight+",").
                         append("data,").append(txtDate.getText().toString());
                 cowbyID.setCsvgraph(csvgraphForAppend.toString());
                 mCowDatabase.daoAccess().update(cowbyID);

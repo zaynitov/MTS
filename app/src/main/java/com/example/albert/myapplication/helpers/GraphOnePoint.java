@@ -2,18 +2,18 @@ package com.example.albert.myapplication.helpers;
 
 import java.util.Date;
 
-public class GraphOneStep {
+public class GraphOnePoint {
     private Date date;
-    private Integer nadoi;
+    private Integer milkYield;
     private Integer MOG;
     private Integer weight;
 
-    public GraphOneStep() {
+    public GraphOnePoint() {
     }
 
-    public GraphOneStep(Date date, Integer nadoi, Integer MOG, Integer weight) {
+    public GraphOnePoint(Date date, Integer milkYield, Integer MOG, Integer weight) {
         this.date = date;
-        this.nadoi = nadoi;
+        this.milkYield = milkYield;
         this.MOG = MOG;
         this.weight = weight;
     }
@@ -26,12 +26,12 @@ public class GraphOneStep {
         this.date = date;
     }
 
-    public Integer getNadoi() {
-        return nadoi;
+    public Integer getMilkYield() {
+        return milkYield;
     }
 
-    public void setNadoi(Integer nadoi) {
-        this.nadoi = nadoi;
+    public void setMilkYield(Integer milkYield) {
+        this.milkYield = milkYield;
     }
 
     public Integer getMOG() {

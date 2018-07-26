@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.albert.myapplication.helpers.AgeCalculator;
-import com.example.albert.myapplication.helpers.ForGraph;
-import com.example.albert.myapplication.helpers.GraphOneStep;
+import com.example.albert.myapplication.helpers.GraphWithPoints;
+import com.example.albert.myapplication.helpers.GraphOnePoint;
 import com.example.albert.myapplication.model.Cow;
 import com.example.albert.myapplication.model.CowsDatabase;
 import com.jjoe64.graphview.GraphView;
@@ -27,10 +27,10 @@ import java.util.Date;
 import java.util.List;
 
 public class Actvity2 extends Activity {
-    private EditText birka;
-    private EditText poroda;
+    private EditText id;
+    private EditText breed;
     private EditText birthday;
-    private EditText mast;
+    private EditText colour;
     private EditText mother;
     private EditText father;
     private CowsDatabase mCowDatabase;
@@ -53,28 +53,28 @@ public class Actvity2 extends Activity {
                     Cow cowFordedit = mCowDatabase.daoAccess().getCowbyID(Integer.valueOf(getIntent().
                             getStringExtra("idedit")));
                     System.out.println(cowFordedit.toString());
-                    birka.setText(String.valueOf(cowFordedit.getId()));
+                    id.setText(String.valueOf(cowFordedit.getId()));
                     birthday.setText(cowFordedit.getBirthday());
-                    mast.setText(cowFordedit.getMast());
+                    colour.setText(cowFordedit.getColour());
                     mother.setText(cowFordedit.getMother());
-                    poroda.setText(cowFordedit.getPoroda());
+                    breed.setText(cowFordedit.getBreed());
                     father.setText(cowFordedit.getFather());
 
-                    ForGraph forGraph = new ForGraph(cowFordedit.getCsvgraph());
-                    if (forGraph.isReadyToGraph()) {
-                        List<GraphOneStep> listOfGraphSteps = forGraph.getListOfGraphSteps();
+                    GraphWithPoints graphWithPoints = new GraphWithPoints(cowFordedit.getCsvgraph());
+                    if (graphWithPoints.isReadyToDraw()) {
+                        List<GraphOnePoint> listOfGraphSteps = graphWithPoints.getListOfGraphSteps();
                         GraphView graph = (GraphView) findViewById(R.id.graph);
                         DataPoint[] dataPointsMOG = new DataPoint[listOfGraphSteps.size()];
                         DataPoint[] dataPointsWeight = new DataPoint[listOfGraphSteps.size()];
-                        DataPoint[] dataPointsNadoi = new DataPoint[listOfGraphSteps.size()];
+                        DataPoint[] dataPointsMilkYield = new DataPoint[listOfGraphSteps.size()];
                         int r = 0;
-                        for (GraphOneStep listOfGraphStep : listOfGraphSteps) {
+                        for (GraphOnePoint listOfGraphStep : listOfGraphSteps) {
                             dataPointsMOG[r] = new DataPoint(listOfGraphStep.getDate(),
                                     listOfGraphStep.getMOG());
                             dataPointsWeight[r] = new DataPoint(listOfGraphStep.getDate(),
                                     listOfGraphStep.getWeight());
-                            dataPointsNadoi[r] = new DataPoint(listOfGraphStep.getDate(),
-                                    listOfGraphStep.getNadoi());
+                            dataPointsMilkYield[r] = new DataPoint(listOfGraphStep.getDate(),
+                                    listOfGraphStep.getMilkYield());
                             r++;
                         }
                         LineGraphSeries<DataPoint> seriesMOG = new LineGraphSeries<>(dataPointsMOG);
@@ -83,14 +83,14 @@ public class Actvity2 extends Activity {
                         LineGraphSeries<DataPoint> seriesWeight = new LineGraphSeries<>(dataPointsWeight);
                         seriesWeight.setTitle("Вес");
                         seriesWeight.setColor(Color.RED);
-                        LineGraphSeries<DataPoint> seriesNadoi = new LineGraphSeries<>(dataPointsNadoi);
-                        seriesNadoi.setTitle("Надой");
-                        seriesNadoi.setColor(Color.BLACK);
+                        LineGraphSeries<DataPoint> seriesMilkYield = new LineGraphSeries<>(dataPointsMilkYield);
+                        seriesMilkYield.setTitle("Надой");
+                        seriesMilkYield.setColor(Color.BLACK);
                         graph.addSeries(seriesMOG);
-                        graph.addSeries(seriesNadoi);
+                        graph.addSeries(seriesMilkYield);
                         graph.addSeries(seriesWeight);
                         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext()));
-                        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+                        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
                         graph.getLegendRenderer().setVisible(true);
                         graph.getGridLabelRenderer().reloadStyles();
                         graph.getViewport().setMinX(dataPointsMOG[0].getX());
@@ -118,10 +118,10 @@ public class Actvity2 extends Activity {
     private void init() {
         mother = findViewById(R.id.txtMother);
         father = findViewById(R.id.txtFather);
-        mast = findViewById(R.id.txtMast);
+        colour = findViewById(R.id.txtColour);
         birthday = findViewById(R.id.txtBirthDay);
-        poroda = findViewById(R.id.txtPoroda);
-        birka = findViewById(R.id.txtBirka);
+        breed = findViewById(R.id.txtBreed);
+        id = findViewById(R.id.txtID);
     }
 
 
@@ -135,16 +135,13 @@ public class Actvity2 extends Activity {
                     date = parser.parse(birthday.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace(); }
-
                 String age = AgeCalculator.getAge(date);
-
-                Cow cow = new Cow(Integer.parseInt(birka.getText().toString()), poroda.getText().toString(),
-                        mast.getText().toString(),
+                Cow cow = new Cow(Integer.parseInt(id.getText().toString()), breed.getText().toString(),
+                        colour.getText().toString(),
                         age, birthday.getText().toString(), mother.getText().toString(),
                         father.getText().toString(), null);
-                if (mCowDatabase.daoAccess().getCowbyID((Integer.parseInt(birka.getText().toString()))) == null) {
+                if (mCowDatabase.daoAccess().getCowbyID((Integer.parseInt(id.getText().toString()))) == null) {
                     mCowDatabase.daoAccess().addNote(cow);
-                    Log.d("as", "database");
                 } else {
                     mCowDatabase.daoAccess().update(cow); }
                 return null;
@@ -159,7 +156,7 @@ public class Actvity2 extends Activity {
 
     public void chart(View view) {
         Intent intent = new Intent(this, Activity3.class);
-        intent.putExtra("id", birka.getText().toString());
+        intent.putExtra("id", id.getText().toString());
         startActivity(intent);
     }
 }

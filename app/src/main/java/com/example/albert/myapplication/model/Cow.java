@@ -3,16 +3,14 @@ package com.example.albert.myapplication.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Date;
-
 @Entity
 public class Cow {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    private String poroda;
-    private String mast;
+    private String breed;
+    private String colour;
     private String age;
-    private String  birthday;
+    private String birthday;
     private String mother;
     private String father;
     private String csvgraph;
@@ -20,10 +18,10 @@ public class Cow {
     public Cow() {
     }
 
-    public Cow(int id, String poroda, String mast, String age, String  birthday, String mother, String father, String csvgraph) {
+    public Cow(int id, String breed, String colour, String age, String  birthday, String mother, String father, String csvgraph) {
         this.id = id;
-        this.poroda = poroda;
-        this.mast = mast;
+        this.breed = breed;
+        this.colour = colour;
         this.age = age;
         this.birthday = birthday;
         this.mother = mother;
@@ -39,20 +37,20 @@ public class Cow {
         this.id = id;
     }
 
-    public String getPoroda() {
-        return poroda;
+    public String getBreed() {
+        return breed;
     }
 
-    public void setPoroda(String poroda) {
-        this.poroda = poroda;
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
-    public String getMast() {
-        return mast;
+    public String getColour() {
+        return colour;
     }
 
-    public void setMast(String mast) {
-        this.mast = mast;
+    public void setColour(String colour) {
+        this.colour = colour;
     }
 
     public String getAge() {
@@ -99,8 +97,8 @@ public class Cow {
     public String toString() {
         return "Cow{" +
                 "id=" + id +
-                ", poroda='" + poroda + '\'' +
-                ", mast='" + mast + '\'' +
+                ", breed='" + breed + '\'' +
+                ", colour='" + colour + '\'' +
                 ", age='" + age + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", mother='" + mother + '\'' +

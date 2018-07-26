@@ -38,14 +38,12 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        if (position/4>0) {
-            viewHolder.setId(Integer.valueOf(list.get((position / 4) * 4)));
-            System.out.println(list.get((position / 4) * 4)+"HHI");
+        //for id, to understand which row was clicked
+        if (position / 4 > 0) {
             viewHolder.setId(Integer.valueOf(list.get((position / 4) * 4)));
         }
+        else viewHolder.setId(0);
         viewHolder.textView.setText(list.get(position));
-
-
     }
 
     @Override
@@ -54,7 +52,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        private TextView textView;
         private Integer id;
 
         public Integer getId() {
@@ -68,14 +66,17 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public ViewHolder(final View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textview);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(itemView.getContext(), Actvity2.class);
-                    intent.putExtra("idedit", String.valueOf(id));
-                    itemView.getContext().startActivity(intent);
-                }
-            });
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (id==0) return; //if id=0 do nothing(for title)
+                        Intent intent = new Intent(itemView.getContext(), Actvity2.class);
+                        intent.putExtra("idedit", String.valueOf(id));
+                        itemView.getContext().startActivity(intent);
+                    }
+                });
+
 
 
         }

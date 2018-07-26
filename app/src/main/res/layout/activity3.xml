@@ -35,7 +35,7 @@
             android:text="Надой" />
 
         <EditText
-            android:id="@+id/txtNadoi"
+            android:id="@+id/txtMilkYield"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"

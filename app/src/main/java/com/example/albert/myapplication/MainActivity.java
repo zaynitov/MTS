@@ -11,7 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.example.albert.myapplication.helpers.ConvertorForListsRecView;
+import com.example.albert.myapplication.helpers.ConvertorToListForRecycleView;
 import com.example.albert.myapplication.model.Cow;
 import com.example.albert.myapplication.model.CowsDatabase;
 
@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if (mAdapter == null) {
-                    mAdapter = new CustomAdapter(ConvertorForListsRecView.convert(cows), context);
+                    mAdapter = new CustomAdapter(ConvertorToListForRecycleView.convert(cows), context);
                     mRecyclerView.setAdapter(mAdapter);
                 } else {
-                    mAdapter.setList(ConvertorForListsRecView.convert(cows));
+                    mAdapter.setList(ConvertorToListForRecycleView.convert(cows));
                     mAdapter.notifyDataSetChanged();
                 }
             }

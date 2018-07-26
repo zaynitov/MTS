@@ -16,7 +16,7 @@
             android:text="#Бирка" />
 
         <EditText
-            android:id="@+id/txtBirka"
+            android:id="@+id/txtID"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
@@ -48,7 +48,7 @@
             android:text="Порода   " />
 
         <EditText
-            android:id="@+id/txtPoroda"
+            android:id="@+id/txtBreed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
@@ -61,7 +61,7 @@
             android:text="Масть" />
 
         <EditText
-            android:id="@+id/txtMast"
+            android:id="@+id/txtColour"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
